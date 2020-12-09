@@ -21,7 +21,8 @@ const Calculator = class {
 
     div = () => {
         return this.first / this.second;
-    }   
+    }  
+
 }
 
 
