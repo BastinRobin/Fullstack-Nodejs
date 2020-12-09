@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Application</title>
+    </head>
+    <style>
+        
+        .row { clear:both;}
+        .col-1 { 
+            background-color: yellow;
+            width: 47%;
+            float: left;
+            padding: 10px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        .col-2 { 
+            background-color: orange;
+            width: 47%;
+            float: right;
+            padding: 10px;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+    </style>
+    <body>
+        <h2>Hello World</h2>
+        <div class="row">
+            <div class="col-1">
+                <p>
+                    <label>First Name</label>
+                    <input type="text" name="fname"/>
+                </p>
+
+                <p>
+                    <label>Last Name</label>
+                    <input type="text" name="lname"/>
+                </p>
+
+                <p>
+                    <label>Email</label>
+                    <input type="email" name="email"/>
+                </p>
+
+                <button class="submit">Submit</button>
+                <button class="reset">Reset</button>
+            </div>
+            <div class="col-2">
+                <h5>Firstname: </h5>
+                <h5>Lastname: </h5>
+                <h5>Email: </h5>
+            </div>
+        </div>
+    </body>
+    <script>
+
+        // When we submit the button
+        // Take the inputs of all fname, lname and email
+        // Append inside the new display box
+        // document.querySelector('button')
+
+        document.querySelector('.submit').addEventListener('click', () => {
+            
+            firstname = document.querySelector('input[name=fname]').value;
+            lastname = document.querySelector('input[name=lname]').value;
+            email = document.querySelector('input[type=email]').value;
+
+            document.querySelectorAll('h5')[0].textContent = firstname;
+            document.querySelectorAll('h5')[1].textContent = lastname;
+            document.querySelectorAll('h5')[2].textContent = email;
+
+
+        });
+
+        document.querySelector('.reset').addEventListener('click', () => {
+            alert("someone visited me");
+        });
+
+
+    </script>
+</html>

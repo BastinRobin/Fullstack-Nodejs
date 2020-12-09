@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Application</title>
+    </head>
+    <body>
+        <h2>Hello World</h2>
+
+        <p style="background-color: yellow;">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+        Ullam culpa eveniet cum, repudiandae cumque, nesciunt sit animi facilis 
+        voluptatem alias in commodi totam eum vitae quo assumenda maiores magnam ipsum?
+        </p>
+
+        <p style="background-color: blueviolet;">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Ullam culpa eveniet cum, repudiandae cumque, nesciunt sit animi facilis 
+            voluptatem alias in commodi totam eum vitae quo assumenda maiores magnam ipsum?
+        </p>
+
+        <p style="background-color: red;">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+                Ullam culpa eveniet cum, repudiandae cumque, nesciunt sit animi facilis 
+                voluptatem alias in commodi totam eum vitae quo assumenda maiores magnam ipsum?
+        </p>
+            
+        <p style="background-color: orange;">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. 
+            Ullam culpa eveniet cum, repudiandae cumque, nesciunt sit animi facilis 
+            voluptatem alias in commodi totam eum vitae quo assumenda maiores magnam ipsum?
+        </p>
+    </body>
+</html>
