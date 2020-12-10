@@ -1,0 +1,15 @@
+{
+  "name": "hybrid-calculator",
+  "version": "0.0.1",
+  "description": "Hybrid calculator for basic arithmetic operations",
+  "main": "calculator.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "hybrid-calculator",
+    "minmax-calculator"
+  ],
+  "author": "Bastin Robins. J",
+  "license": "ISC"
+}
