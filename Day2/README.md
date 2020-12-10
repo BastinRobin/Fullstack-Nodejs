@@ -4,9 +4,9 @@
 1. Node modules - Done
 2. Node HTTP Modules - Done
 3. Node File Systems - Done
-4. Node URL Parsing
+4. Node URL Parsing - Done
 5. NPM manager - Done
-6. Node Emails
+6. Node Email - TODO
 7. Node with MongoDB
 
     ## Challenge
@@ -43,3 +43,47 @@
 
 
 
+
+
+
+## MySQL Terminologies
+- Databases
+    - Tables
+        - Records
+
+````
+    # User table
+    id | fname | lname | age | gender | gst_no
+````
+
+## MongoDB Terminologies
+- Databases
+    - Collections
+        - Documents
+
+````
+user = {
+    fname: "Robin",
+    lname: "J",
+    gender: 'male'
+    subjects: ["English", "Math", "Science"],
+    created: "20 years"
+}
+
+user1 = {
+    fname: "Robin",
+    lname: "J",
+    gender: 'male'
+}
+
+use SimpleDB;
+
+// bsonid
+db.users.insertOne(user);
+
+// bsonid
+db.users.insertOne(user1);
+
+db.profiles.insertOne(user);
+
+````
