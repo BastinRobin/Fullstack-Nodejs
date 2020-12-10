@@ -9,6 +9,12 @@
 6. Node Emails
 7. Node with MongoDB
 
+    ## Challenge
+    Write a simple API `/api/bmi` and pass the necessary parameters in query string 
+    `height` and `weight`. Write a BMI calculation function and use it to calculate
+    BMI and expose it a `API JSON format` like the calculator.
+
+
 ## Day 3  - Frontend (Vue and Bootstrap)
 1. What is Vuejs
 2. How Vue is different from vanilla js or Jquery
