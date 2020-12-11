@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <title>LostList!</title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#">LostList</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+      
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto" style="margin-top:100px">
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <input type="text" class="form-control item">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-success add_item">Add Items</button>
+                    </div>
+                </div>
+                <ul class="list-group" style="margin-top:10px">
+                    <li class="list-group-item">
+                      <input class="form-check-input me-1" type="checkbox" value="" aria-label="...">
+                      Cras justo odio
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+  </body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+  <script>
+
+    items = [
+        {is_active: true, is_completed: false, _id:'121', content: 'I really like to code'},
+        {is_active: true, is_completed: false, _id:'122', content: "I will go to play"},
+        {is_active: true, is_completed: false, _id:'123', content: "When can we meet?"},
+        {is_active: true, is_completed: false, _id:'124', content: "Tomorrow have a meeting with boss"}
+    ];
+
+
+    render = (items) => {
+        document.querySelector('.list-group').innerHTML = ''; 
+        items.forEach((item) => {
+            let list = document.createElement('li');
+            let input = document.createElement('input');
+            input.className="form-check-input me-1";
+            input.type = "checkbox";
+            list.append(input);
+            list.className = "list-group-item";
+            list.append(item.content);
+            document.querySelector('.list-group').append(list);
+        });
+    }
+
+    render(items);
+
+    
+    document.querySelector('.add_item').addEventListener('click', () => {
+
+        items.unshift({
+            is_active: true,
+            is_completed: false,
+            content: document.querySelector('.item').value
+        });
+        render(items);
+        document.querySelector('.item').value = '';
+    });
+
+  </script>
+</html>
