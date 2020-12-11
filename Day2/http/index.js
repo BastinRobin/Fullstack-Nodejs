@@ -2,7 +2,7 @@ var http = require('http');
 var fs = require('fs');
 var calc = require('hybrid-calculator');
 var url = require('url');
-
+    
 // Create a server with different URL to understand
 /**
 http.createServer((request, response) => {
@@ -175,8 +175,6 @@ http.createServer((request, response) => {
                 response.end();
                 break;
         }
-    
-    
 
     }
     

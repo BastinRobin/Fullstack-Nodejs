@@ -11,4 +11,3 @@ console.log(cal.multiply());
 console.log(cal.division());
 console.log(cal.findTheMin());
 console.log(cal.findTheMax());
-
