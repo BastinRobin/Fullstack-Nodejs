@@ -32,6 +32,15 @@ app.get("/todolist", (req, res, next) => {
     });
 });
 
+app.get("/v1", (req, res, next) => {
+    fs.readFile("todo.html", (err, data) => {
+        if (err) throw err;
+        res.write(data);
+        res.end();
+    });
+    
+});
+
 app.post("/create", (req, res, next) => {
     console.log("To create a new TODO");
 });
