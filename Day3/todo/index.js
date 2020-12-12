@@ -1,4 +1,3 @@
-const { resolveNaptr } = require('dns');
 const express = require('express');
 const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
@@ -41,17 +40,6 @@ app.get("/v1", (req, res, next) => {
     
 });
 
-app.post("/create", (req, res, next) => {
-    console.log("To create a new TODO");
-});
-
-app.put("/items/:id", (req, res, next) => {
-    console.log("Update the items with id given");
-});
-
-app.delete("/items/:id", (req, res, next) => {
-    console.log("Delete the items");
-});
 
 
 app.listen(8000);

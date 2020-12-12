@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <!-- development version, includes helpful console warnings -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <title>Todo List!</title>
   </head>
   <body>
@@ -31,23 +32,23 @@
                 <h5 style="margin-top:10px">TODO List</h5>
                 <ul class="list-group" >
                     <li class="list-group-item" v-for="(item, index) in items">
-                        <img v-if="item.is_completed" src="https://cms-assets.tutsplus.com/uploads/users/523/posts/32694/preview_image/tutorial-preview-small.png" width="30px"/>
+                        <img v-if="item.is_completed=='true'" src="https://cms-assets.tutsplus.com/uploads/users/523/posts/32694/preview_image/tutorial-preview-small.png" width="30px"/>
                         {{ item.content }} 
                         <div style="float:right">
-                            <button :class="['btn btn-sm btn-primary', {'btn-warning' : item.is_completed }]" @click="markCompleted(index, item)">{{ item.is_completed ? 'Undo' : 'Done'  }}</button>
+                            <button :class="['btn btn-sm btn-primary', {'btn-warning' : item.is_completed=='true' }]" @click="markCompleted(index, item)">{{ item.is_completed=='true' ? 'Undo' : 'Done'  }}</button>
                             <button class="btn btn-sm btn-info" @click="trash(index, item)">Trash</button>
                         </div>
                     </li>
                 </ul>
 
-                <div v-if="this.deleted_items.length > 0">
-                    <h5>Completed</h5>
+                <div v-if="this.deleted_items.length > 0" style="margin-top:20px">
+                    <h5>Trashed</h5>
                     <ul class="list-group" style="margin-top:10px">
                         <li class="list-group-item" v-for="(item, index) in deleted_items">
                             {{ item.content }}
                             <div style="float:right">
                                 <button class="btn btn-sm btn-warning" @click="undo_trash(index, item)">Undo</button>
-                                <button class="btn btn-sm btn-danger" @click="deleteItem(index, item)">Undo</button>
+                                <button class="btn btn-sm btn-danger" @click="deleteItem(index, item)">Delete</button>
 
                             </div>
                         </li>
@@ -63,34 +64,37 @@
         el: '#app',
         data: {
             new_item: '',
-            items: [
-                { content: "i love to code", is_completed: false},
-                { content: "i love to play",is_completed: false},
-                { content: "i am going to prepare cake", is_completed: false}
-            ],
+            items: [],
             deleted_items: []
         },
         methods: {
 
             addItem() {
-                this.items.push({
-                    content: this.new_item,
-                    is_completed: false
+                axios.post('/api/items', { text: this.new_item }).then(response => {
+                    this.items.push(response.data);
+                    this.new_item = '';
                 });
-                this.new_item = '';
             },
 
             deleteItem(index, item) {
-                this.deleted_items.splice(index, 1);
+                axios.delete(`/api/items/${item._id}`)
+                    .then(response => {
+                        this.deleted_items.splice(index, 1);
+                    });
             },
 
             markCompleted(index, item) {
-
-                if (item.is_completed) {
-                    item.is_completed = false;
+                if (item.is_completed=='true') {
+                    status = false;
                 } else {
-                    item.is_completed = true;
+                    status = true;
                 }
+                axios.put(`/api/items/${item._id}`, {
+                    is_completed: status
+                })
+                .then(response => {
+                        item.is_completed = status;
+                });                
 
             },
 
@@ -103,6 +107,11 @@
                 let temp = this.deleted_items.splice(index, 1);
                 this.items.push(temp[0]);
             }
+        },
+        mounted() {
+            axios.get('/api/items').then(response => {
+                this.items = response.data;
+            });
         }
     }); 
   </script>
