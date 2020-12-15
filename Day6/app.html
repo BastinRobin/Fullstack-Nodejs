@@ -1,0 +1,149 @@
+<!doctype html>
+<head>
+    <title>Programmers Search</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+</head>
+<body>
+    <div id="app">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">{{ title }}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#"><i class="icon-zoom-in"></i></a>
+            </li>
+            
+          </ul>
+          <form class="form-inline my-2 my-lg-0">
+            Since {{ limit }} Days <input class="form-control mr-sm-2" v-model="limit" type="range" min="10" max="900" placeholder="Search" aria-label="Search">
+            
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            <button class="btn btn-outline-info my-2 my-sm-0" @click="zoom_in">Zoom In</button>
+            <button class="btn btn-outline-info my-2 my-sm-0" @click="zoom_out">Zoom Out</button>
+
+          </form>
+        </div>
+        </nav>
+        <div class="container-fluid" style="margin-top:80px; clear:both;">
+            <div class="row" style="width:50%; float:left">
+                  <div class="card" v-for="(user, index) in users" :style="`width: ${zoom}rem; margin-left: 5px;`">
+                    <img :src="user.avatar_url" class="card-img-top" @click.prevent="fetch_user(user.login)">
+                    <h3 v-if="zoom > 7" class="card-title" @click.prevent="fetch_user(user.login)">{{ user.login }}</h3>
+                  </div>      
+            </div>
+
+            <div style="width: 20%; float:left;">
+                <img v-if="loader" src="https://mir-s3-cdn-cf.behance.net/project_modules/disp/35771931234507.564a1d2403b3a.gif"  width="100px"/>
+                <div class="card" v-if="Object.keys(profile).length">
+                    <img :src="profile.avatar_url" class="card-img-top">
+                    <div class="card-body">
+                      <h5 class="card-title">{{ profile.name }}</h5>
+                      <p class="card-text">{{ profile.bio }}</p>
+                      <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center" @click="fetch_followers(profile.login)">
+                          Followers
+                          <span class="badge badge-primary badge-pill">{{ profile.followers }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Following
+                          <span class="badge badge-primary badge-pill">{{ profile.following }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                          Public Repos
+                          <span class="badge badge-primary badge-pill">{{ profile.public_repos }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Public Gist
+                            <span class="badge badge-primary badge-pill">{{ profile.public_gists }}</span>
+                          </li>
+                      </ul>
+                    </div>
+                  </div>
+            </div>
+            <div style="width: 20%; float:left;">
+                <div class="card" v-if="extra.length">
+                    <div class="card-body">
+                      <ul class="list-group">
+                        <li v-for="(item, index) in extra" class="list-group-item d-flex justify-content-between align-items-center">
+                          <img :src="item.avatar_url" width="30px"> {{ item.login }}
+                          <!-- <span class="badge badge-primary badge-pill">{{ profile.followers }}</span> -->
+                        </li>
+                        
+                      </ul>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    let app = new Vue({
+        el: '#app',
+        data: {
+            title: 'Socialify',
+            users: [],
+            zoom: 7,
+            profile: {},
+            extra: [],
+            loader: false,
+            limit: "10"
+        },
+        methods: {
+            fetch_all_users() {
+                this.users = [];
+                // this.loader = true;
+                axios.get(`https://api.github.com/users?since=${this.limit}`).then(response => {
+                    this.users = response.data;
+                    // this.loader = false;
+                }); 
+            },
+            zoom_in() {
+                this.zoom = this.zoom + 1;
+            },
+            zoom_out() {
+                this.zoom = this.zoom - 1;
+            },
+            fetch_user(username) {
+                this.loader = true;
+                this.extra = [];
+                this.profile = {};
+                axios.get(`https://api.github.com/users/${username}`)
+                    .then(response => {
+                        this.profile = response.data;
+                        this.loader = false;
+                    });
+            },
+            fetch_followers(username) {
+                this.loader = true;
+                axios.get(`https://api.github.com/users/${username}/followers`)
+                    .then(response => {
+                        this.extra = response.data;
+                        this.loader = false;
+                    });
+            }
+
+        },
+        mounted() {
+            this.fetch_all_users();
+        },
+        watch: {
+            limit() {
+                setTimeout(() => {
+                    this.fetch_all_users();
+                }, 2000);
+            }
+
+        }
+    })
+</script>
+</html>
